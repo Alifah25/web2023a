@@ -24,4 +24,24 @@ class BookController extends Controller
         Book::create($request->except(['_token', 'submit']));
         return redirect('/book');
     }
+
+    public function edit($id)
+    {
+        $book = Book::find($id);
+        return view('book.edit', compact(['book']));
+    }
+
+    public function update($id, Request $request)
+    {
+        $book = Book::find($id);
+        $book->update($request->except(['_token', 'submit']));
+        return redirect('/book');
+    }
+
+    public function destroy($id)
+    {
+        $book = Book::find($id);
+        $book->delete();
+        return redirect('/book');
+    }
 }
