@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/book', [BookController::class, 'index']);
-Route::get('/book/create', [BookController::class, 'create']);
-Route::post('/book/store', [BookController::class, 'store']);
-Route::get('/book/{id}/edit', [BookController::class, 'edit']);
-Route::put('/book/{id}', [BookController::class, 'update']);
-Route::delete('/book/{id}', [BookController::class, 'destroy']);
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'registerPost'])->name('register');
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'loginPost'])->name('login');
+});
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/book', [BookController::class, 'index']);
+    Route::get('/book/create', [BookController::class, 'create']);
+    Route::post('/book/store', [BookController::class, 'store']);
+    Route::get('/book/{id}/edit', [BookController::class, 'edit']);
+    Route::put('/book/{id}', [BookController::class, 'update']);
+    Route::delete('/book/{id}', [BookController::class, 'destroy']);
+    Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
+});

@@ -17,7 +17,7 @@
         <input type="text" name="penulis" id="penulis" class="form-control" value="{{$book->penulis}}" required>
     </div>
     <div>
-        <label for="genre" class="form-label">Genre</label>
+        <label for="genre" class="form-label">Kategori</label>
         <input type="text" name="genre" id="genre" class="form-control" value="{{$book->genre}}" required>
     </div>
     <div>
